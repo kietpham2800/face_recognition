@@ -40,6 +40,10 @@ while True:
     facecurFrame = face_recognition.face_locations(framS) # Lấy từng khuôn mặt và vị trí hiên tại của nó
     encodecurFrame = face_recognition.face_encodings(framS)
 
+    for encodeFace, faceLoc in zip(encodecurFrame, facecurFrame):  # Lấy từng khuôn mặt và vị trí theo cặp
+        matches = face_recognition.compare_faces(encodeListKnow, encodeFace)
+        faceDis = face_recognition.face_distance(encodeListKnow, encodeFace)
+
     cv2.imshow('Nhận diện khuôn mặt', frame)
     if cv2.waitKey(1) == ord("q"):  # độ trễ 1/1000s, nếu bấm q sẽ thoát
         break

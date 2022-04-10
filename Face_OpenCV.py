@@ -40,6 +40,24 @@ while True:
     facecurFrame = face_recognition.face_locations(framS) # Lấy từng khuôn mặt và vị trí hiên tại của nó
     encodecurFrame = face_recognition.face_encodings(framS)
 
+    for encodeFace, faceLoc in zip(encodecurFrame, facecurFrame):  # Lấy từng khuôn mặt và vị trí theo cặp
+        matches = face_recognition.compare_faces(encodeListKnow, encodeFace)
+        faceDis = face_recognition.face_distance(encodeListKnow, encodeFace)
+
+        print(faceDis)
+        matchIndex = np.argmin(faceDis)  # Trả về index của faceDis nhỏ nhất
+
+        if faceDis[matchIndex] < 0.40:
+            name = classNames[matchIndex].upper()
+        else:
+            name = "Unknow"
+
+        # print tên lên frame
+        y1, x2, y2, x1 = faceLoc
+        y1, x2, y2, x1 = y1 * 2, x2 * 2, y2 * 2, x1 * 2
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.putText(frame, name, (x2, y2), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+
     cv2.imshow('Nhận diện khuôn mặt', frame)
     if cv2.waitKey(1) == ord("q"):  # độ trễ 1/1000s, nếu bấm q sẽ thoát
         break

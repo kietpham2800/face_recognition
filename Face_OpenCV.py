@@ -28,5 +28,22 @@ encodeListKnow = Mahoa(images)
 print("Mã hóa thành công")
 print(len(encodeListKnow))
 
+#Khỏi động webcam
+cap = cv2.VideoCapture(0)
+
+while True:
+    ret , frame = cap.read()
+    framS = cv2.resize(frame,(0,0),None,fx=0.5,fy=0.5)
+    framS = cv2.cvtColor(framS, cv2.COLOR_BGR2RGB)
+
+    # xác định vị trí khuôn mặt trên cam và encode hình ảnh trên cam
+    facecurFrame = face_recognition.face_locations(framS) # Lấy từng khuôn mặt và vị trí hiên tại của nó
+    encodecurFrame = face_recognition.face_encodings(framS)
+
+    cv2.imshow('Nhận diện khuôn mặt', frame)
+    if cv2.waitKey(1) == ord("q"):  # độ trễ 1/1000s, nếu bấm q sẽ thoát
+        break
+cap.release()  # giải phóng camera
+cv2.destroyAllWindows()  # thoát tất cả các cửa sổ
 
 

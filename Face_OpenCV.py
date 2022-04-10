@@ -3,7 +3,7 @@ import face_recognition
 import os
 import numpy as np
 
-path="pic2"
+path ="pic2"
 images = []
 classNames = []
 myList = os.listdir(path)
@@ -29,7 +29,7 @@ print("Mã hóa thành công")
 print(len(encodeListKnow))
 
 #Khỏi động webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("video-test.mp4")
 
 while True:
     ret , frame = cap.read()
@@ -47,7 +47,7 @@ while True:
         print(faceDis)
         matchIndex = np.argmin(faceDis)  # Trả về index của faceDis nhỏ nhất
 
-        if faceDis[matchIndex] < 0.50:
+        if faceDis[matchIndex] < 0.40:
             name = classNames[matchIndex].upper()
         else:
             name = "Unknow"
@@ -58,7 +58,7 @@ while True:
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
         cv2.putText(frame, name, (x2, y2), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
 
-    cv2.imshow('Nhận diện khuôn mặt', frame)
+    cv2.imshow('Face_recognition', frame)
     if cv2.waitKey(1) == ord("q"):  # độ trễ 1/1000s, nếu bấm q sẽ thoát
         break
 cap.release()  # giải phóng camera
